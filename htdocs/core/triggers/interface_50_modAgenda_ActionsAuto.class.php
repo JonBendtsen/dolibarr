@@ -87,6 +87,9 @@ class InterfaceActionsAuto extends DolibarrTriggers
 			return 0;
 		}
 
+		// 2024-11-30 by JonB: to get further I have configured this 'key' even though I had inserted it into llx_c_action_trigger
+		// configured in Home, Setup, Other Setup MAIN_AGENDA_ACTIONAUTO_ECMFILES_FETCH_HASHP = 1
+		// also INSERT INTO `llx_c_action_trigger` (`rowid`, `elementtype`, `code`, `contexts`, `label`, `description`, `rang`) VALUES (NULL, 'ecm', 'ECMFILES_FETCH_HASHP', '', 'Public file download', 'File downloaded using hashp value', '666');
 		$key = 'MAIN_AGENDA_ACTIONAUTO_'.$action;
 		//var_dump($action.' - '.$key.' - '.$conf->global->$key);exit;
 
@@ -230,6 +233,25 @@ class InterfaceActionsAuto extends DolibarrTriggers
 
 			// Parameters $object->sendtoid defined by caller
 			//$object->sendtoid = array();
+		} elseif ($action == 'ECMFILES_FETCH_HASHP') {
+			'@phan-var-force ECM $object';
+
+			$object->id = $object->src_object_id;
+			$object->element = $object->src_object_type;
+			$actionmsgStatic = "Public file download ".$object->filename;
+
+			if (empty($object->actionmsg2)) {
+				if (empty($object->context['actionmsg2'])) {
+					$object->actionmsg2 = $actionmsgStatic;
+				} else {
+					$object->actionmsg2 = $actionmsgStatic;
+				}
+			}
+			if (empty($object->actionmsg)) {
+				$object->actionmsg = $actionmsgStatic;
+			}
+
+			$object->sendtoid = array();
 		} elseif ($action == 'PROPAL_VALIDATE') {
 			'@phan-var-force Propal $object';
 			// Load translation files required by the page

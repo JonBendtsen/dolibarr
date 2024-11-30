@@ -532,6 +532,20 @@ class EcmFiles extends CommonObject
 
 			// $this->fetch_lines();
 
+			// Triggers
+			if (!$error && !$notrigger) {
+				// Call triggers
+				if (!empty($hashforshare)) {
+					$emptyUserObject = new user($this->db);
+					$result = $this->call_trigger(strtoupper(get_class($this)).'_FETCH_HASHP', $emptyUserObject);
+					// $this->call_trigger requires an User Object
+					if ($result < 0) {
+						$error++;
+					} //Do also here what you must do to rollback action if trigger fail
+				}
+				// End call triggers
+            }
+
 			$this->db->free($resql);
 
 			if ($numrows) {
