@@ -1044,6 +1044,7 @@ class Notify
 							if (!$this->db->query($sql)) {
 								dol_print_error($this->db);
 							}
+							// 2024-11-30 JonB I probably here could create a new actioncomm object of the right kind and run it with notrigger=1
 						} else {
 							$error++;
 							$this->errors[] = $mailfile->error;
