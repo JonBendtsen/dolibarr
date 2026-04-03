@@ -219,4 +219,6 @@ create table llx_product_lang_extrafields
 ) ENGINE=innodb;
 ALTER TABLE llx_product_lang_extrafields ADD INDEX idx_product_lang_fk_object(fk_object);
 
+ALTER TABLE llx_eventorganization_conferenceorboothattendee ADD COLUMN fk_member integer DEFAULT NULL AFTER fk_soc;
+
 -- end of migration
