@@ -21,6 +21,8 @@ use Luracast\Restler\RestException;
 
 require_once DOL_DOCUMENT_ROOT.'/comm/mailing/class/mailing.class.php';
 require_once DOL_DOCUMENT_ROOT.'/comm/mailing/class/mailing_targets.class.php';
+require_once DOL_DOCUMENT_ROOT.'/api/class/api.class.php';
+require_once DOL_DOCUMENT_ROOT.'/api/class/api_access.class.php';
 
 /**
  * API class for mass mailings
@@ -146,7 +148,7 @@ class Mailings extends DolibarrApi
 	 */
 	public function index($sortfield = "t.rowid", $sortorder = 'ASC', $limit = 100, $page = 0, $fk_projects = '', $sqlfilters = '', $properties = '', $pagination_data = false, $loadlinkedobjects = 0)
 	{
-		if (!DolibarrApiAccess::$user->hasRight('mailing', 'read')) {
+		if (isset(DolibarrApiAccess::$user) && (!DolibarrApiAccess::$user->hasRight('mailing', 'read')) || !$user->hasRight('mailing', 'read')) {
 			throw new RestException(403);
 		}
 

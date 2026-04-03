@@ -1031,6 +1031,22 @@ if ($action == 'remove_file') {
 	$action = '';
 }
 
+// Add selected (event attendees) + possible members, thirdparties, contacts, ... to a mass mailing
+if (!$error && $massaction == 'preaddmailing') {
+	dol_syslog('massaction::massaction='.$massaction, LOG_DEBUG);
+	dol_syslog('massaction::fk_project='.$fk_project, LOG_DEBUG);
+	dol_syslog('massaction::toselect='.$toselect, LOG_DEBUG);
+
+	require_once DOL_DOCUMENT_ROOT.'/comm/mailing/class/api_mailings.class.php';
+	$api_mailings = new Mailings($db);
+	$project_mailings = $api_mailings->index('','',0,0,$fk_project, '', 'id,title');
+    foreach($project_mailings as $mailing) {
+		dol_syslog('massaction::foreach::mailing->id='.$mailing->id, LOG_DEBUG);
+		dol_syslog('massaction::foreach::mailing->title='.$mailing->title, LOG_DEBUG);
+	}
+
+}
+
 
 // Validate records
 if (!$error && $massaction == 'validate' && $permissiontoadd) {
