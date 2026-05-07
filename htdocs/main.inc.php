@@ -34,6 +34,46 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+// --- UNIVERSAL SESSION BYPASS FOR API (MUST BE FIRST) ---
+// 1. Define the variable FIRST
+$uri = $_SERVER['REQUEST_URI'] ?? '';
+$isApi = (strpos($uri, '/api/') !== false && strpos($uri, '/explorer') === false);
+
+// 2. Now check the variable
+if ($isApi) {
+    // Define Dummy Handlers
+    if (!function_exists('_fphp_dummy_open')) {
+        function _fphp_dummy_open($path, $name) {
+            // Optional: error_log("DUMMY_OPEN called");
+            return true;
+        }
+        function _fphp_dummy_close() { return true; }
+        function _fphp_dummy_read($id) {
+            // Optional: error_log("DUMMY_READ called");
+            return '';
+        }
+        function _fphp_dummy_write($id, $data) { return true; }
+        function _fphp_dummy_destroy($id) { return true; }
+        function _fphp_dummy_gc($max) { return 0; }
+    }
+
+    // Register Dummy Handler IMMEDIATELY
+    session_set_save_handler(
+        '_fphp_dummy_open',
+        '_fphp_dummy_close',
+        '_fphp_dummy_read',
+        '_fphp_dummy_write',
+        '_fphp_dummy_destroy',
+        '_fphp_dummy_gc'
+    );
+
+    // Define NOSESSION
+    if (!defined('NOSESSION')) define('NOSESSION', 1);
+}
+// --- END UNIVERSAL SESSION BYPASS ---
+
+// ... rest of main.inc.php ...
+
 /**
  *	\file       htdocs/main.inc.php
  *	\ingroup	core

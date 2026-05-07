@@ -62,9 +62,20 @@ if (defined('DOL_INC_FOR_VERSION_ERROR')) {
  *
  * @return void
  */
-function dol_session_start()
-{
-	session_start();
+if (!function_exists('dol_session_start')) {
+    function dol_session_start() {
+		dol_syslog("SESSION_START_CALLED: " . ($_SERVER['REQUEST_URI'] ?? 'unknown'), LOG_INFO);
+        // --- FORCE API SESSION BYPASS IN FILEFUNC.INC.PHP ---
+        $uri = $_SERVER['REQUEST_URI'] ?? '';
+        if (strpos($uri, '/api/') !== false && strpos($uri, '/explorer') === false) {
+            // API Request: Do NOT start session.
+            return;
+        }
+        // ----------------------------------------------------
+
+        // Original logic
+        session_start();
+    }
 }
 
 /**
