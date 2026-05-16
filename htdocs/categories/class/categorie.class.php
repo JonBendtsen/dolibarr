@@ -545,6 +545,7 @@ class Categorie extends CommonObject
 	 *          					-2 : new ID unknown
 	 *          					-3 : Invalid category
 	 * 								-4 : category already exists
+	 *								-5 : circular reference: a descendant cannot become our parent
 	 */
 	public function create($user, $notrigger = 0)
 	{
