@@ -2657,7 +2657,7 @@ function getModuleDirForApiClass($moduleobject)
 
 	if ($moduleobject == 'contracts') {
 		$moduledirforclass = 'contrat';
-	} elseif (in_array($moduleobject, array('admin', 'login', 'setup', 'access', 'status', 'tools', 'documents', 'objectlinks', 'emailtemplates'))) {
+	} elseif (in_array($moduleobject, array('admin', 'login', 'setup', 'access', 'status', 'tools', 'documents', 'objectlinks', 'emailtemplates', 'mails'))) {
 		$moduledirforclass = 'api';
 	} elseif (in_array($moduleobject, ['contact', 'contacts', 'customer', 'thirdparty', 'thirdparties'])) {
 		$moduledirforclass = 'societe';
