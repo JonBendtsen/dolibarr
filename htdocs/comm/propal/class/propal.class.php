@@ -4022,6 +4022,7 @@ class Propal extends CommonObject
 	 */
 	public function generateDocument($modele, $outputlangs, $hidedetails = 0, $hidedesc = 0, $hideref = 0, $moreparams = null)
 	{
+		dol_syslog(__METHOD__, LOG_DEBUG);
 		$outputlangs->loadLangs(array("propale", "products"));
 
 		if (!dol_strlen($modele)) {
